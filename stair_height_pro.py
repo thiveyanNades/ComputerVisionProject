@@ -105,12 +105,15 @@ def detect_stairs_and_height_realtime():
                     cv2.line(frame_display, (x1, y1), (x2, y2), (0, 255, 0), 2)
                     detected_step_lines.append(line[0])
 
-            num_steps, _ = calculate_step_height_real_world(
+            num_steps_raw, _ = calculate_step_height_real_world(
                 detected_step_lines,
                 placeholder_matrix,
                 focal_length_mm=4.0,
                 sensor_height_mm=3.6
             )
+
+            num_steps = max(1, int(round(num_steps_raw / 2)))
+
 
             total_height_cm = num_steps * ASSUMED_RISER_HEIGHT_CM
 
